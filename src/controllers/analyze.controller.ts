@@ -1,0 +1,59 @@
+import { Request, Response } from "express";
+import { LexicalAnalyzer } from "../Analyzer/LexicalAnalyzer";
+import { parsePlayers } from "../parser/PlayerParser";
+
+export const analyze =  (req: Request, res: Response) => {
+    const input = req.body;
+    let lexicalAnalyzer: LexicalAnalyzer = new LexicalAnalyzer();
+
+    let tokenList = lexicalAnalyzer.scanner(input);
+    let errorList = lexicalAnalyzer.getErrorList();
+
+    const parsed = parsePlayers(tokenList);
+
+    res.json({
+        ...parsed,
+        errors: errorList
+    });
+}
+
+export const home = (req: Request, res:Response) => {
+
+    let pokemons = [
+        { 
+            name: 'Bulbasaur',
+            type: 'Planta'
+        },
+        { 
+            name: 'Charmander',
+            type: 'Fuego'
+        },
+        { 
+            name: 'Squirtle',
+            type: 'Agua'
+        },
+        { 
+            name: 'Pidgey',
+            type: 'Normal/Volador'
+        },
+        { 
+            name: 'Rattata',
+            type: 'Normal'
+        },
+        { 
+            name: 'Jigglypuff',
+            type: 'Normal/Hada'
+        },
+        { 
+            name: 'Meowth',
+            type: 'Normal'
+        },
+        { 
+            name: 'Psyduck',
+            type: 'Agua'
+        }
+    ];
+
+    res.render('pages/index', {name: 'Lexical Analyzer', pokemons: pokemons});
+
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <title>PokeJugador</title>
+</head>
+<body>
+    <h1> Hola mundo </h1>
+
+    <div class="container">
+        <% pokemons.forEach((pokemon => { %>
+            <div class="item">
+                <p><%= pokemon.name %></p>
+                <img id=<%= pokemon.name %> alt="<%= pokemon.name %>">
+                <p><%= pokemon.type %></p>
+            </div>
+        <% })); %>    
+    </div>
+
+    
+    <script src="js/index.js"></script>
+</body>
+</html>
