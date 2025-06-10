@@ -30,12 +30,12 @@ export function parsePlayers(tokens: Token[]): any {
                 i++;
                 while (tokens[i] && tokens[i].getTypeTokenString() !== "RESERVED_WORD") i++;
                 let type = tokens[i] ? tokens[i].getLexeme() : "";
-                // Saltar hasta encontrar el parentesis de apertura
+                // Saltar hasta encontrar el paréntesis de apertura
                 while (tokens[i] && tokens[i].getTypeTokenString() !== "PAR_OPEN") i++;
                 i++; // Avanza después del paréntesis
                 let health = 0, attack = 0, defense = 0;
 
-                // Leer stats hasta cerrar el parentesis
+                // Leer stats hasta cerrar el paréntesis
                 while (
                     tokens[i] &&
                     tokens[i].getTypeTokenString() !== "PAR_CLOSE"

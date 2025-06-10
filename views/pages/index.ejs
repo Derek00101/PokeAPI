@@ -3,23 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>PokeJugador</title>
 </head>
 <body>
-    <h1> Hola mundo </h1>
+    <!-- Menu de navegacion -->
+    <nav>
+        <button onclick="location.reload()">Home</button>
+        <button onclick="mostrarErrores()">Error Report</button>
+        <button onclick="limpiarEditor()">Limpiar Editor</button>
+        <input type="file" id="fileInput" style="display:none" onchange="cargarArchivo(event)">
+        <button onclick="document.getElementById('fileInput').click()">Cargar Archivo</button>
+        <button onclick="guardarArchivo()">Guardar Archivo</button>
+    </nav>
 
     <div class="container">
-        <% pokemons.forEach((pokemon => { %>
-            <div class="item">
-                <p><%= pokemon.name %></p>
-                <img id=<%= pokemon.name %> alt="<%= pokemon.name %>">
-                <p><%= pokemon.type %></p>
-            </div>
-        <% })); %>    
+        <!-- Editor de codigo -->
+        <form id="analizarForm" action="/analyze" method="POST">
+            <h3>Editor de Texto</h3>
+            <textarea id="editor" name="editor" placeholder="Ingresa tu código aquí..."><%= typeof input !== 'undefined' ? input : '' %></textarea>
+            <button type="submit" id="analizarBtn">Analizar</button>
+        </form>
+
+        <!-- Tabla de resultados -->
+        <div id="tabla-tokens">
+            <h3>Tabla de Tokens</h3>
+            <% if (!locals.tokens || tokens.length === 0) { %>
+                <div class="empty-state">No hay tokens para mostrar</div>
+            <% } else { %>
+                <div class="table-container">
+                    <table>
+                        <!-- ... contenido de la tabla ... -->
+                    </table>
+                </div>
+            <% } %>
+        </div>
     </div>
 
-    
-    <script src="js/index.js"></script>
+    <!-- Seccion de jugadores -->
+    <div id="jugadores-container" class="jugadores-section">
+        <video class="video-background" autoplay muted loop playsinline>
+            <source src="/img/pokemon-gym.mp4" type="video/mp4">
+            <!-- Puedes agregar más formatos de video como fallback -->
+            Tu navegador no soporta el elemento video.
+        </video>
+        <h3>Jugadores Analizados</h3>
+    </div>
+
+    <!-- Tabla de errores -->
+    <div id="tabla-errores" class="error-container" style="display: none;">
+        <h3>Reporte de Errores Léxicos</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fila</th>
+                        <th>Columna</th>
+                        <th>Carácter</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody id="error-tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="/js/ui.js"></script>
 </body>
 </html>

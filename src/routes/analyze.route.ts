@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { analyze, home } from "../controllers/analyze.controller";
+import { Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
+import { analyze } from '../controllers/analyze.controller';
 
 const analyzeRouter = Router();
 
-analyzeRouter.get('/', home);
-analyzeRouter.post('/analyze', analyze);
+analyzeRouter.post('/analyze', (req: Request, res: Response, next: NextFunction) => analyze(req, res));
 
 export default analyzeRouter;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Equipos de Jugadores</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <div class="jugadores-main-container">
+        <% jugadores.forEach(jugador => { %>
+            <div class="jugador">
+                <h2><%= jugador.name %></h2>
+                <div class="equipo">
+                    <% jugador.listPokemon.forEach(poke => { %>
+                        <div class="pokemon">
+                            <div><%= poke.type %></div>
+                            <img id="poke-<%= poke.name %>" alt="<%= poke.name %>">
+                            <div><%= poke.name %></div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    <script src="/js/index.js"></script>
+</body>
+</html>
