@@ -1,13 +1,12 @@
 import { Token, Type } from "./Token";
 
 class LexicalAnalyzer {
-
-    private row: number;
-    private column: number;
-    private auxChar: string;
-    private state: number;
-    private tokenList: Token[];
-    private errorList: Token[];
+    private row: number;        // fila actual
+    private column: number;     // columna actual
+    private auxChar: string;    // almacena caracteres temporalmente
+    private state: number;      // estado actual del automata
+    private tokenList: Token[]; // lista de tokens encontrados
+    private errorList: Token[]; // lista de errores lexicos
 
     constructor() {
         this.row = 1;
@@ -19,42 +18,41 @@ class LexicalAnalyzer {
     }
 
     scanner(input: string) {
-        input += '#'
+        input += '#' // agregar fin de archivo
         let char: string;
 
         for (let i: number = 0; i < input.length; i++) {
-             
             char = input[i];
 
             switch(this.state) {
-                case 0:
+                case 0: // estado inicial
                     switch(char) {
-                        case 'J': // 1
-                            this.state = 1; // Palabra reservada
+                        case 'J': // palabra jugador
+                            this.state = 1;
                             this.addCharacter(char);
                             break;
-                        case 's': // 2
-                            this.state = 8; // Palabra reservada
+                        case 's': // palabra salud
+                            this.state = 8;
                             this.addCharacter(char);
                             break;
-                        case 'a': // 3
-                            this.state = 13; // Palabra reservada
+                        case 'a': // palabra ataque
+                            this.state = 13;
                             this.addCharacter(char);
                             break;
-                        case 'd': // 4
-                            this.state = 19; // Palabra reservada    
+                        case 'd': // palabra defensa
+                            this.state = 19;
                             this.addCharacter(char);
                             break;
-                        case 'p': // 5
-                            this.state = 34; // Palabra reservada
+                        case 'p': // palabra planta
+                            this.state = 34;
                             this.addCharacter(char);
                             break;
-                        case 'f': // 6
-                            this.state = 47; // Palabra reservada
+                        case 'f': // palabra fuego
+                            this.state = 47;
                             this.addCharacter(char);
                             break;
-                        case 'n': // 7
-                            this.state = 52; // Palabra reservada
+                        case 'n': // palabra dragon
+                            this.state = 52;
                             this.addCharacter(char);
                             break;
                         case '{': // 8
@@ -797,26 +795,21 @@ class LexicalAnalyzer {
                     i--; // Decrementar i para no saltar el siguiente carácter
                     // Aceptación
                     break;
-                case 67:
-                    // Aceptación
+                case 67: // reconociendo numero
                     if (/\d/.test(char)) {
-                        this.addCharacter(char);
-                        continue; // Continuar construyendo el número
-                    }
-                    
-                    this.addToken(Type.NUMBER, this.auxChar, this.row, this.column - this.auxChar.length);
-                    this.clean();
-                    i--; // Decrementar i para no saltar el siguiente carácter
-                    // Si el carácter no es un dígito, se procesará en la siguiente iteración
-
-                    break;
-                case 68:
-                    if (char == '"') {
-                        this.state = 69; 
                         this.addCharacter(char);
                         continue;
                     }
-
+                    this.addToken(Type.NUMBER, this.auxChar, this.row, this.column - this.auxChar.length);
+                    this.clean();
+                    i--;
+                    break;
+                case 68: // reconociendo cadena
+                    if (char == '"') {
+                        this.state = 69;
+                        this.addCharacter(char);
+                        continue;
+                    }
                     this.addCharacter(char);
                     break;
                 case 69:
@@ -844,10 +837,9 @@ class LexicalAnalyzer {
         this.column++;
     }
 
-    
     private clean() {
-        this.state = 0; 
-        this.auxChar = ''; 
+        this.state = 0;
+        this.auxChar = '';
     }
 
     private addToken(type: Type, lexeme: string, row: number, column: number) {
@@ -858,10 +850,9 @@ class LexicalAnalyzer {
         this.errorList.push(new Token(type, lexeme, row, column));
     }
 
-    getErrorList(){
+    getErrorList() {
         return this.errorList;
     }
-
 }
 
 export { LexicalAnalyzer };

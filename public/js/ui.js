@@ -164,14 +164,22 @@ async function renderJugadores(players) {
 
                     const pokemonCard = document.createElement('div');
                     pokemonCard.className = 'pokemon-card';
-                    pokemonCard.style.flex = '0 0 200px';
-                    pokemonCard.style.scrollSnapAlign = 'start';
+                    // Calcular IV's
+                    const total = poke.health + poke.attack + poke.defense;
+                    const ivPercentage = Math.round((total / 45) * 100);
+
                     pokemonCard.innerHTML = `
                         <img src="${data.sprites.other['official-artwork'].front_default || data.sprites.front_default}" 
                              alt="${poke.name}">
                         <div class="pokemon-info">
                             <div class="pokemon-name">${poke.name}</div>
                             <div class="pokemon-type">${poke.type}</div>
+                            <div class="pokemon-stats">
+                                <div class="stat">HP: ${poke.health}</div>
+                                <div class="stat">ATK: ${poke.attack}</div>
+                                <div class="stat">DEF: ${poke.defense}</div>
+                                <div class="iv-total">IV's: ${ivPercentage}%</div>
+                            </div>
                         </div>
                     `;
 
@@ -190,12 +198,22 @@ async function renderJugadores(players) {
 
                     const pokemonCard = document.createElement('div');
                     pokemonCard.className = 'pokemon-card';
+                    // Calcular IV's
+                    const total = poke.health + poke.attack + poke.defense;
+                    const ivPercentage = Math.round((total / 45) * 100);
+
                     pokemonCard.innerHTML = `
                         <img src="${data.sprites.other['official-artwork'].front_default || data.sprites.front_default}" 
                              alt="${poke.name}">
                         <div class="pokemon-info">
                             <div class="pokemon-name">${poke.name}</div>
                             <div class="pokemon-type">${poke.type}</div>
+                            <div class="pokemon-stats">
+                                <div class="stat">HP: ${poke.health}</div>
+                                <div class="stat">ATK: ${poke.attack}</div>
+                                <div class="stat">DEF: ${poke.defense}</div>
+                                <div class="iv-total">IV's: ${ivPercentage}%</div>
+                            </div>
                         </div>
                     `;
 
